@@ -13,7 +13,7 @@ interface TrendsProps {
 export const Trends = ({ summary, group }: TrendsProps) => {
   return (
     <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Trends</Text>
+      {/* <Text style={styles.sectionTitle}>Trends</Text>
       <Animated.View entering={FadeInDown.delay(100).springify()}>
         {Object.entries(summary?.expensesByMonth || {})
           .sort(([a], [b]) => b.localeCompare(a))
@@ -28,7 +28,7 @@ export const Trends = ({ summary, group }: TrendsProps) => {
               <Text style={styles.listValue}>Rs {amount.toFixed(0)}</Text>
             </View>
           ))}
-      </Animated.View>
+      </Animated.View> */}
 
       <View style={{ marginTop: 24 }}>
         <Text style={styles.sectionTitle}>Quick Stats</Text>

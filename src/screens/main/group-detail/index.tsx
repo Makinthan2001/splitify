@@ -530,7 +530,7 @@ export default function GroupDetailScreen() {
                 <View style={styles.detailRow}>
                   <Text style={styles.detailLabel}>Category</Text>
                   <Text style={styles.detailValue}>
-                    {selectedExpense.category || "Other"}
+                    {selectedExpense.category || "Others"}
                   </Text>
                 </View>
                 <View style={styles.detailRow}>

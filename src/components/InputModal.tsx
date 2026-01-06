@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { COLORS } from "../constants";
 
 interface InputModalProps {
   visible: boolean;
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
     color: "#6b7280",
   },
   submitButton: {
-    backgroundColor: "#3b82f6",
+    backgroundColor: COLORS.PRIMARY,
   },
   submitButtonText: {
     fontSize: 16,

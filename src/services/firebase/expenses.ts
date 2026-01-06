@@ -693,7 +693,7 @@ export const getGroupSummary = async (groupId: string): Promise<GroupSummary> =>
     // Group expenses by category
     const expensesByCategory: Record<string, number> = {};
     expenses.forEach(exp => {
-      const category = exp.category || 'Other';
+      const category = exp.category || 'Others';
       const amount = exp.amount || 0;
       expensesByCategory[category] = (expensesByCategory[category] || 0) + amount;
     });

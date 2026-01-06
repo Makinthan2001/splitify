@@ -88,6 +88,7 @@ splitify/
 For detailed information about the folder structure and development guidelines, see:
 
 - [FOLDER_STRUCTURE.md](./FOLDER_STRUCTURE.md) - Complete folder structure guide
+- [PROJECT_REPORT.md](PROJECT_REPORT.md) - Project overview, scope, and resources
 
 ## 🔧 Development
 

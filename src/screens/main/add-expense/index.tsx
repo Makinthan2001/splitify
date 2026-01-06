@@ -23,11 +23,13 @@ import { styles } from "./styles";
 
 const CATEGORIES = [
   { id: "Food", icon: "restaurant-outline" },
+  { id: "Living", icon: "home-outline" },
   { id: "Travel", icon: "bus-outline" },
-  { id: "Fun", icon: "game-controller-outline" },
-  { id: "Life", icon: "cart-outline" },
-  { id: "Bills", icon: "bulb-outline" },
-  { id: "Other", icon: "ellipsis-horizontal-outline" },
+  { id: "Shopping", icon: "cart-outline" },
+  { id: "Entertainment", icon: "game-controller-outline" },
+  { id: "Utilities", icon: "bulb-outline" },
+  { id: "Bills", icon: "wallet-outline" },
+  { id: "Others", icon: "ellipsis-horizontal-outline" },
 ];
 
 export default function AddExpenseScreen() {
@@ -40,7 +42,7 @@ export default function AddExpenseScreen() {
     title: "",
     amount: "",
     description: "",
-    category: "Other",
+    category: "Others",
     note: "",
   });
   const [loading, setLoading] = useState(false);
