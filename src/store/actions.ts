@@ -1,8 +1,7 @@
 import { updateProfile as firebaseUpdateProfile } from 'firebase/auth';
-import { loginUser as firebaseLogin, logoutUser as firebaseLogout, signUpUser as firebaseSignUp } from '../services/firebase/auth';
-import { auth } from '../services/firebase/config';
-import { getUserGroups } from '../services/firebase/groups';
-import { updateUserDocument } from '../services/firebase/users';
+import { auth } from '../backend/config/firebase';
+import { getUserGroups } from '../backend/services/GroupService';
+import { loginUser as firebaseLogin, logoutUser as firebaseLogout, signUpUser as firebaseSignUp, updateUser } from '../backend/services/UserService';
 import { User } from '../types';
 import { Action } from './types';
 
@@ -24,7 +23,7 @@ export const signupAction = async (dispatch: React.Dispatch<Action>, email: stri
         dispatch({ type: 'SET_USER', payload: user });
         return user;
     } catch (error: any) {
-        
+
         dispatch({ type: 'SET_ERROR', payload: error.message || "Signup failed" });
         return null;
     } finally {
@@ -49,7 +48,7 @@ export const loginAction = async (dispatch: React.Dispatch<Action>, email: strin
         dispatch({ type: 'SET_USER', payload: user });
         return user;
     } catch (error: any) {
-        
+
         dispatch({ type: 'SET_ERROR', payload: error.message || "Login failed" });
         return null;
     } finally {
@@ -63,7 +62,7 @@ export const logoutAction = async (dispatch: React.Dispatch<Action>) => {
         dispatch({ type: 'LOGOUT' });
         return true;
     } catch (error: any) {
-        
+
         return false;
     }
 };
@@ -72,7 +71,7 @@ export const updateProfileAction = async (dispatch: React.Dispatch<Action>, uid:
     dispatch({ type: 'SET_LOADING', payload: true });
     try {
         // 1. Update Firestore
-        await updateUserDocument(uid, updates);
+        await updateUser(uid, updates);
 
         // 2. Update Firebase Auth Profile
         if (auth.currentUser) {
@@ -87,7 +86,7 @@ export const updateProfileAction = async (dispatch: React.Dispatch<Action>, uid:
         dispatch({ type: 'UPDATE_USER', payload: updates as Partial<User> });
         return true;
     } catch (error: any) {
-        
+
         dispatch({ type: 'SET_ERROR', payload: error.message || "Update failed" });
         return false;
     } finally {
@@ -103,7 +102,7 @@ export const fetchGroupsAction = async (dispatch: React.Dispatch<Action>, userId
         const groups = await getUserGroups(userId, !forceRefresh);
         dispatch({ type: 'SET_GROUPS', payload: groups });
     } catch (error: any) {
-        
+
         dispatch({ type: 'SET_ERROR', payload: error.message || "Failed to fetch groups" });
     } finally {
         if (forceRefresh) {

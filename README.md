@@ -1,6 +1,6 @@
 # Splitify 💰
 
-A modern expense splitting app built with React Native and Expo.
+A modern expense splitting app built with React Native and Expo. Seamlessly effectively track bills, share expenses, and settle debts with friends.
 
 ## 🗂️ Project Structure
 
@@ -10,24 +10,33 @@ This project follows a well-organized folder structure for better maintainabilit
 splitify/
 ├── 📁 src/                          # Main source code
 │   ├── 📁 components/               # React components
-│   │   ├── 📁 common/              # Shared/reusable components
-│   │   ├── 📁 ui/                  # Pure UI components
-│   │   ├── 📁 forms/               # Form components
-│   │   └── 📄 index.ts             # Component exports
+│   │   ├── � ConfirmationModal.tsx # Reusable confirmation dialog
+│   │   ├── 📄 SuccessModal.tsx      # Custom success feedback
+│   │   ├── � InputModal.tsx        # Text input modal
+│   │   └── 📄 AuthProvider.tsx      # Authentication context
 │   ├── 📁 screens/                 # Screen components
-│   │   ├── 📁 auth/                # Authentication screens
+│   │   ├── � auth/                # Login/Signup flow
 │   │   ├── 📁 main/                # Main app screens
+│   │   │   ├── 📁 home/            # Dashboard & Group List
+│   │   │   ├── 📁 create-group/    # Group creation flow
+│   │   │   ├── 📁 group-detail/    # Group expenses & members
+│   │   │   ├── 📁 group-summary/   # Settlement & Insight charts
+│   │   │   ├── 📁 add-expense/     # Expense entry form
+│   │   │   └── 📁 profile/         # User profile settings
 │   │   └── 📄 index.ts             # Screen exports
-│   ├── 📁 services/                # External service integrations
-│   │   ├── 📁 firebase/            # Firebase services
-│   │   ├── 📁 api/                 # REST API client
-│   │   └── 📄 index.ts             # Service exports
+│   ├── 📁 backend/                 # Backend logic (Firebase/Services)
+│   │   ├── 📁 services/            # Business logic
+│   │   │   ├── 📄 ExpenseService.ts
+│   │   │   ├── 📄 GroupService.ts
+│   │   │   └── 📄 UserService.ts
+│   │   ├── 📁 models/              # Data models (Interfaces)
+│   │   ├── 📁 dao/                 # Data Access Objects (Firestore)
+│   │   ├── 📁 config/              # Configuration (Firebase init)
+│   │   └── 📁 utils/               # Backend utilities
 │   ├── 📁 navigation/              # Navigation configuration
-│   ├── 📁 hooks/                   # Custom React hooks
-│   ├── 📁 utils/                   # Utility functions
+│   ├── 📁 store/                   # State management (Context/Reducer)
 │   ├── 📁 types/                   # TypeScript definitions
-│   ├── 📁 constants/               # App constants
-│   └── 📁 store/                   # State management
+│   └── 📁 constants/               # App constants
 ├── 📁 app/                         # Expo Router (routing only)
 ├── 📁 assets/                      # Static assets
 └── 📁 scripts/                     # Build scripts
@@ -63,15 +72,21 @@ splitify/
 
 ## 📋 Features
 
-- ✅ User authentication with Firebase
-- ✅ Email verification
-- ✅ Modern UI with themed components
-- ✅ TypeScript support
-- ✅ Path mapping for clean imports
-- ✅ Organized component structure
-- ⏳ Expense tracking (coming soon)
-- ⏳ Group management (coming soon)
-- ⏳ Bill splitting (coming soon)
+### Core
+- ✅ **User Authentication**: Secure login and signup with Firebase Auth.
+- ✅ **Group Management**: Create groups, invite friends via code, and manage members.
+- ✅ **Expense Tracking**: Add expenses with categories, descriptions, and custom splits.
+- ✅ **Bill Splitting**: Supports Equal, Percentage, and Custom split methods.
+
+### Smart Logic
+- ✅ **Seamless Settlements**: Smart algorithms to calculate the most efficient way to settle debts.
+- ✅ **Detailed Insights**: View top spenders, expense trends, and category breakdowns.
+- ✅ **Admin Controls**: Group creators (hosts) can manage group settings and delete groups.
+
+### UX/UI
+- ✅ **Modern Aesthetics**: Premium "Gold & White" theme with glassmorphism and smooth animations.
+- ✅ **Visual Feedback**: Custom success modals and confirmation dialogs for critical actions.
+- ✅ **Real-time Updates**: Auto-refresh on status changes and settlement confirmations.
 
 ## 🛠️ Tech Stack
 
@@ -80,15 +95,15 @@ splitify/
 - **Navigation**: Expo Router
 - **Authentication**: Firebase Auth
 - **Database**: Firestore
-- **State Management**: Context API (with plans for Redux/Zustand)
-- **Styling**: StyleSheet (React Native)
+- **State Management**: Context API
+- **Styling**: StyleSheet (React Native) with Animated (Reanimated)
 
 ## 📚 Documentation
 
 For detailed information about the folder structure and development guidelines, see:
 
-- [FOLDER_STRUCTURE.md](./FOLDER_STRUCTURE.md) - Complete folder structure guide
-- [PROJECT_REPORT.md](PROJECT_REPORT.md) - Project overview, scope, and resources
+- [FOLDER_STRUCTURE.md](Text/FOLDER_STRUCTURE.md) - Complete folder structure guide
+- [PROJECT_REPORT.md](Text/PROJECT_REPORT.md) - Project overview, scope, and resources
 
 ## 🔧 Development
 
@@ -101,17 +116,6 @@ import { Button } from "../../components/ui/button";
 // Use clean imports
 import { Button } from "@/components/ui";
 ```
-
-## 🚨 Fixed Issues
-
-✅ **Folder Structure Reorganized**: Moved all files to a proper `src/` structure
-✅ **Import Paths Fixed**: Updated all import statements to match new structure
-✅ **TypeScript Path Mapping**: Configured for cleaner imports
-✅ **Asset Paths Corrected**: Fixed all asset import paths
-
-## 📱 Screenshots
-
-_Coming soon..._
 
 ## 🤝 Contributing
 

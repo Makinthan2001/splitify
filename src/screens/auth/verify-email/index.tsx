@@ -2,26 +2,26 @@ import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { reload, sendEmailVerification } from "firebase/auth";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
-  ActivityIndicator,
-  Alert,
-  StatusBar,
-  Text,
-  TouchableOpacity,
-  View,
+    ActivityIndicator,
+    Alert,
+    StatusBar,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import Animated, {
-  FadeInDown,
-  FadeInUp,
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withSequence,
-  withTiming,
+    FadeInDown,
+    FadeInUp,
+    useAnimatedStyle,
+    useSharedValue,
+    withRepeat,
+    withSequence,
+    withTiming,
 } from "react-native-reanimated";
-import { auth } from "../../../services/firebase/config";
+import { auth } from "../../../backend/config/firebase";
+import { checkEmailVerification, sendVerificationEmail } from "../../../backend/services/UserService";
 import { useApp } from "../../../store";
 import { logoutAction } from "../../../store/actions";
 import { Action } from "../../../store/types";
@@ -32,18 +32,16 @@ const sendVerificationEmailAction = async (
 ) => {
   dispatch({ type: "SET_LOADING", payload: true });
   try {
-    if (auth.currentUser) {
-      await sendEmailVerification(auth.currentUser);
-      Alert.alert(
-        "Success",
-        "Verification email sent! Please check your inbox."
-      );
-      return true;
-    }
+    await sendVerificationEmail();
+    Alert.alert(
+      "Success",
+      "Verification email sent! Please check your inbox."
+    );
+    return true;
   } catch (error: any) {
     Alert.alert(
       "Error",
-      "Failed to send verification email. Please try again."
+      error.message || "Failed to send verification email. Please try again."
     );
   } finally {
     dispatch({ type: "SET_LOADING", payload: false });
@@ -53,20 +51,18 @@ const sendVerificationEmailAction = async (
 
 const checkVerificationAction = async (dispatch: React.Dispatch<Action>) => {
   try {
-    if (auth.currentUser) {
-      await reload(auth.currentUser);
-      if (auth.currentUser.emailVerified) {
-        const updatedUser = {
-          uid: auth.currentUser.uid,
-          email: auth.currentUser.email || "",
-          name: auth.currentUser.displayName || undefined,
-          emailVerified: true,
-          createdAt: new Date().toISOString(),
-          photoURL: auth.currentUser.photoURL || undefined,
-        };
-        dispatch({ type: "SET_USER", payload: updatedUser });
-        return true;
-      }
+    const isVerified = await checkEmailVerification();
+    if (isVerified && auth.currentUser) {
+      const updatedUser = {
+        uid: auth.currentUser.uid,
+        email: auth.currentUser.email || "",
+        name: auth.currentUser.displayName || undefined,
+        emailVerified: true,
+        createdAt: new Date().toISOString(),
+        photoURL: auth.currentUser.photoURL || undefined,
+      };
+      dispatch({ type: "SET_USER", payload: updatedUser });
+      return true;
     }
   } catch (error) {}
   return false;

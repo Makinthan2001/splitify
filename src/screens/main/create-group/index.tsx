@@ -26,9 +26,10 @@ import Animated, {
 import {
   clearGroupsCache,
   createGroup,
-} from "../../../services/firebase/groups";
+} from "../../../backend/services/GroupService";
 import { useApp } from "../../../store";
 import { styles } from "./styles";
+import SuccessModal from "@/components/SuccessModal";
 
 export default function CreateGroupScreen() {
   const router = useRouter();
@@ -38,6 +39,7 @@ export default function CreateGroupScreen() {
   const [groupName, setGroupName] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // Floating animation for the icon
   const floatValue = useSharedValue(0);
@@ -78,25 +80,24 @@ export default function CreateGroupScreen() {
         [] 
       );
 
+
       if (user?.uid) {
         clearGroupsCache(user.uid);
       }
 
-      router.replace("/(tabs)/home");
-
-      // Show success message
-      setTimeout(() => {
-        Alert.alert(
-          "Success!",
-          `Group "${groupName}" created successfully!`
-        );
-      }, 500);
+      // Show custom success modal
+      setShowSuccessModal(true);
       
     } catch (error: any) {
       Alert.alert("Error", error.message || "Failed to create group");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSuccessClose = () => {
+    setShowSuccessModal(false);
+    router.replace("/(tabs)/home");
   };
 
   return (
@@ -201,6 +202,14 @@ export default function CreateGroupScreen() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <SuccessModal
+        visible={showSuccessModal}
+        title="Group Created!"
+        message={`"${groupName}" has been successfully created.`}
+        confirmText="Ok"
+        onConfirm={handleSuccessClose}
+      />
     </View>
   );
 }

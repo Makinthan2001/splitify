@@ -1,7 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -27,9 +28,10 @@ import Animated, {
 import {
   calculateGroupSummary,
   getGroupExpenses,
-} from "../../../services/firebase/expenses";
-import { getGroup } from "../../../services/firebase/groups";
-import { getUserDocument } from "../../../services/firebase/users";
+} from "../../../backend/routes/expenseRoutes";
+import { deleteGroup, getGroup } from "../../../backend/services/GroupService";
+import { getUser } from "../../../backend/services/UserService";
+import ConfirmationModal from "../../../components/ConfirmationModal";
 import { useApp } from "../../../store";
 import { Balance, Expense, Group, User } from "../../../types";
 import { styles } from "./styles";
@@ -50,6 +52,7 @@ export default function GroupDetailScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
   const [showExpenseModal, setShowExpenseModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // Helpers to prefer email over UID for display
   const getBalanceDisplay = (b: Balance) => {
@@ -162,6 +165,14 @@ export default function GroupDetailScreen() {
     loadGroupData();
   }, [id, user?.uid]);
 
+  useFocusEffect(
+    useCallback(() => {
+        if (id && user) {
+            loadGroupData();
+        }
+    }, [id, user])
+  );
+
   const handleRefresh = () => {
     setRefreshing(true);
     loadGroupData();
@@ -190,7 +201,7 @@ export default function GroupDetailScreen() {
       const memberData = await Promise.all(
         group.members.map(async (memberId) => {
           try {
-            const userData = await getUserDocument(memberId);
+            const userData = await getUser(memberId);
             if (userData) return userData;
 
             const isEmailUid = memberId.includes("@") && memberId.includes(".");
@@ -216,6 +227,18 @@ export default function GroupDetailScreen() {
     } catch (error) {
     } finally {
       setLoadingMembers(false);
+    }
+  };
+
+  const handleDeleteGroup = async () => {
+    if (!group || !id) return;
+    try {
+      await deleteGroup(id);
+      setShowDeleteModal(false);
+      router.replace("/(tabs)/home");
+    } catch (error: any) {
+      Alert.alert("Error", "Failed to delete group: " + error.message);
+      setShowDeleteModal(false);
     }
   };
 
@@ -289,6 +312,14 @@ export default function GroupDetailScreen() {
             >
               <Ionicons name="people-outline" size={20} color="white" />
             </TouchableOpacity>
+            {group?.hostId === user?.uid && (
+              <TouchableOpacity
+                style={styles.headerActionButton}
+                onPress={() => setShowDeleteModal(true)}
+              >
+                <Ionicons name="trash-outline" size={20} color="white" />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
 
@@ -573,6 +604,19 @@ export default function GroupDetailScreen() {
           </View>
         </View>
       </Modal>
+
+
+      {/* Delete Group Confirmation Modal */}
+      <ConfirmationModal
+        visible={showDeleteModal}
+        title="Delete Group?"
+        message="Are you sure you want to delete this group? This action cannot be undone and all expenses will be lost."
+        confirmText="Delete"
+        cancelText="Cancel"
+        isDestructive={true}
+        onCancel={() => setShowDeleteModal(false)}
+        onConfirm={handleDeleteGroup}
+      />
     </View>
   );
 }

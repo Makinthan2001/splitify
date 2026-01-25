@@ -3,20 +3,20 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import {
-  ActivityIndicator,
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    ActivityIndicator,
+    Alert,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    StatusBar,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
-import { addExpense } from "../../../services/firebase/expenses";
-import { getGroup } from "../../../services/firebase/groups";
+import { addExpense } from "../../../backend/routes/expenseRoutes";
+import { getGroup } from "../../../backend/services/GroupService";
 import { useApp } from "../../../store";
 import { Expense } from "../../../types";
 import { styles } from "./styles";

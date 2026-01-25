@@ -1,8 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { Image, Modal, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Modal, Text, TouchableOpacity, View } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
-import { confirmSettlement } from "../../../../services/firebase/expenses";
+import { confirmSettlement } from "../../../../backend/routes/expenseRoutes";
 import { GroupSummary, User } from "../../../../types";
 import { styles } from "../styles";
 
@@ -248,7 +248,10 @@ export const Settlements = ({
                               : "Thanks — your confirmation has been recorded. The amount settles only when both users click 'Settled'."
                           );
                           setPopupVisible(true);
-                        } catch (e) {}
+                        } catch (e: any) {
+                          console.error("Settlement Error:", e);
+                          Alert.alert("Settlement Failed", e.message || "Unknown error occurred");
+                        }
                       }}
                     >
                       <Text style={{ color: "#fff", fontWeight: "800" }}>

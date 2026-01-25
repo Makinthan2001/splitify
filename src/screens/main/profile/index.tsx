@@ -3,16 +3,16 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
 import {
-  Alert,
-  Image,
-  ScrollView,
-  StatusBar,
-  Text,
-  TouchableOpacity,
-  View,
+    Alert,
+    Image,
+    ScrollView,
+    StatusBar,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
-import { logoutUser } from "../../../services/firebase/auth";
+import { logoutUser } from "../../../backend/services/UserService";
 import { useApp } from "../../../store";
 import { LogoutModal } from "../home/components/LogoutModal";
 import { AboutSplitify } from "./components/AboutSplitify";
