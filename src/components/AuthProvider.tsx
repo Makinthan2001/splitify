@@ -2,7 +2,7 @@ import { useRouter, useSegments } from "expo-router";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
-import { auth } from "../services/firebase/config";
+import { auth } from "../backend/config/firebase";
 
 export default function AuthProvider({
   children,

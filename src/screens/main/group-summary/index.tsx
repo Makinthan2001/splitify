@@ -4,17 +4,17 @@ import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
-  RefreshControl,
-  ScrollView,
-  StatusBar,
-  Text,
-  TouchableOpacity,
-  View,
+    ActivityIndicator,
+    RefreshControl,
+    ScrollView,
+    StatusBar,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
-import { db } from "../../../services/firebase/config";
-import { getGroupSummary } from "../../../services/firebase/expenses";
-import { getGroup } from "../../../services/firebase/groups";
+import { db } from "../../../backend/config/firebase";
+import { getGroupSummary } from "../../../backend/routes/expenseRoutes";
+import { getGroup } from "../../../backend/services/GroupService";
 import { useApp } from "../../../store";
 import { Group, GroupSummary } from "../../../types";
 import { Balances } from "./components/Balances";

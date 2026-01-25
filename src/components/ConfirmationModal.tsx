@@ -1,90 +1,63 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  Alert,
-  Modal,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Modal,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import { COLORS } from "../constants";
 
-interface InputModalProps {
+interface ConfirmationModalProps {
   visible: boolean;
   title: string;
-  message?: string;
-  placeholder?: string;
+  message: string;
   onCancel: () => void;
-  onSubmit: (text: string) => void;
-  submitText?: string;
+  onConfirm: () => void;
+  confirmText?: string;
   cancelText?: string;
+  isDestructive?: boolean;
 }
 
-export default function InputModal({
+export default function ConfirmationModal({
   visible,
   title,
   message,
-  placeholder,
   onCancel,
-  onSubmit,
-  submitText = "Submit",
+  onConfirm,
+  confirmText = "Confirm",
   cancelText = "Cancel",
-}: InputModalProps) {
-  const [inputValue, setInputValue] = useState("");
-
-  const handleSubmit = () => {
-    const trimmed = inputValue.trim();
-    if (trimmed) {
-      onSubmit(trimmed);
-      setInputValue(""); // Clear input after submit
-    } else {
-      Alert.alert("Error", "Please enter a value");
-    }
-  };
-
-  const handleCancel = () => {
-    setInputValue(""); // Clear input on cancel
-    onCancel();
-  };
-
+  isDestructive = false,
+}: ConfirmationModalProps) {
   return (
     <Modal
       visible={visible}
       transparent={true}
       animationType="fade"
       statusBarTranslucent
-      onRequestClose={handleCancel}
+      onRequestClose={onCancel}
     >
       <View style={styles.overlay}>
         <View style={styles.modal}>
           <Text style={styles.title}>{title}</Text>
-          {message && <Text style={styles.message}>{message}</Text>}
-
-          <TextInput
-            style={styles.input}
-            value={inputValue}
-            onChangeText={setInputValue}
-            placeholder={placeholder}
-            placeholderTextColor="#9ca3af"
-            autoCapitalize="characters"
-            autoFocus={true}
-            onSubmitEditing={handleSubmit}
-          />
+          <Text style={styles.message}>{message}</Text>
 
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={[styles.button, styles.cancelButton]}
-              onPress={handleCancel}
+              onPress={onCancel}
             >
               <Text style={styles.cancelButtonText}>{cancelText}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.button, styles.submitButton]}
-              onPress={handleSubmit}
+              style={[
+                styles.button,
+                isDestructive ? styles.destructiveButton : styles.confirmButton,
+              ]}
+              onPress={onConfirm}
             >
-              <Text style={styles.submitButtonText}>{submitText}</Text>
+              <Text style={styles.confirmButtonText}>{confirmText}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -123,21 +96,9 @@ const styles = StyleSheet.create({
   message: {
     fontSize: 16,
     color: "#6b7280",
-    marginBottom: 20,
-    textAlign: "center",
-    lineHeight: 24,
-  },
-  input: {
-    backgroundColor: "#f9fafb",
-    borderWidth: 1,
-    borderColor: "#d1d5db",
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-    color: "#1f2937",
     marginBottom: 24,
     textAlign: "center",
+    lineHeight: 24,
   },
   buttonContainer: {
     flexDirection: "row",
@@ -160,10 +121,13 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#6b7280",
   },
-  submitButton: {
+  confirmButton: {
     backgroundColor: COLORS.PRIMARY,
   },
-  submitButtonText: {
+  destructiveButton: {
+    backgroundColor: "#ef4444",
+  },
+  confirmButtonText: {
     fontSize: 16,
     fontWeight: "600",
     color: "white",

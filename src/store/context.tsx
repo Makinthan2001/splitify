@@ -6,7 +6,7 @@ import React, {
   useEffect,
   useReducer,
 } from "react";
-import { auth } from "../services/firebase/config";
+import { auth } from "../backend/config/firebase";
 import { User } from "../types";
 import { appReducer, initialState } from "./reducer";
 import { Action, AppState } from "./types";

@@ -32,7 +32,7 @@ export const STORAGE_KEYS = {
  * Theme colors
  */
 export const COLORS = {
-  PRIMARY: '#007AFF',
+  PRIMARY: '#DAA520',
   SECONDARY: '#5856D6',
   SUCCESS: '#34C759',
   WARNING: '#FF9500',

@@ -3,31 +3,33 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import {
-  ActivityIndicator,
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    ActivityIndicator,
+    Alert,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    StatusBar,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
-import { addExpense } from "../../../services/firebase/expenses";
-import { getGroup } from "../../../services/firebase/groups";
+import { addExpense } from "../../../backend/routes/expenseRoutes";
+import { getGroup } from "../../../backend/services/GroupService";
 import { useApp } from "../../../store";
 import { Expense } from "../../../types";
 import { styles } from "./styles";
 
 const CATEGORIES = [
   { id: "Food", icon: "restaurant-outline" },
+  { id: "Living", icon: "home-outline" },
   { id: "Travel", icon: "bus-outline" },
-  { id: "Fun", icon: "game-controller-outline" },
-  { id: "Life", icon: "cart-outline" },
-  { id: "Bills", icon: "bulb-outline" },
-  { id: "Other", icon: "ellipsis-horizontal-outline" },
+  { id: "Shopping", icon: "cart-outline" },
+  { id: "Entertainment", icon: "game-controller-outline" },
+  { id: "Utilities", icon: "bulb-outline" },
+  { id: "Bills", icon: "wallet-outline" },
+  { id: "Others", icon: "ellipsis-horizontal-outline" },
 ];
 
 export default function AddExpenseScreen() {
@@ -40,7 +42,7 @@ export default function AddExpenseScreen() {
     title: "",
     amount: "",
     description: "",
-    category: "Other",
+    category: "Others",
     note: "",
   });
   const [loading, setLoading] = useState(false);

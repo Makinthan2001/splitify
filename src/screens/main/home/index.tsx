@@ -14,8 +14,8 @@ import {
   View,
 } from "react-native";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import { joinGroupByInviteCode } from "../../../backend/services/GroupService";
 import InputModal from "../../../components/InputModal";
-import { joinGroupByInviteCode } from "../../../services/firebase/groups";
 import { useApp } from "../../../store";
 import { fetchGroupsAction, logoutAction } from "../../../store/actions";
 import { Group, User } from "../../../types";
@@ -91,8 +91,14 @@ export default function HomeScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      // Screens updates would happen here if focused
-    }, [])
+      // Re-fetch groups when screen comes into focus
+      // passing true to force refresh if needed, but since we cleared cache in service, 
+      // standard loadGroups should fetch fresh data if cache is empty.
+      // To be safe and ensure instant update after delete, we can check if we need to refresh.
+      if (user) {
+         loadGroups(true);
+      }
+    }, [user])
   );
 
   const handleRefresh = () => {
@@ -177,7 +183,7 @@ export default function HomeScreen() {
           style={styles.headerContent}
         >
           <View style={styles.welcomeSection}>
-            <Text style={styles.title}>S P I L T I F Y</Text>
+            <Text style={styles.title}>S P L T I F Y</Text>
             <Text style={styles.subtitle}>
               Hello, {user?.name?.split(" ")[0] || "User"}
             </Text>
