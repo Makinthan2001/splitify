@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useFocusEffect } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useRouter } from "expo-router";
+import { useRouter, useNavigation } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -59,6 +58,7 @@ const ProfileCircle = ({
 
 export default function HomeScreen() {
   const router = useRouter();
+  const navigation = useNavigation();
   const { state, dispatch } = useApp();
   const { user, groups, isLoading: isGlobalLoading } = state;
 
@@ -87,19 +87,15 @@ export default function HomeScreen() {
     if (user && groups.length === 0) {
       loadGroups(false);
     }
-  }, [user]);
 
-  useFocusEffect(
-    useCallback(() => {
-      // Re-fetch groups when screen comes into focus
-      // passing true to force refresh if needed, but since we cleared cache in service, 
-      // standard loadGroups should fetch fresh data if cache is empty.
-      // To be safe and ensure instant update after delete, we can check if we need to refresh.
+    const unsubscribe = navigation.addListener("focus", () => {
       if (user) {
-         loadGroups(true);
+        loadGroups(true);
       }
-    }, [user])
-  );
+    });
+
+    return unsubscribe;
+  }, [user, navigation]);
 
   const handleRefresh = () => {
     setRefreshing(true);

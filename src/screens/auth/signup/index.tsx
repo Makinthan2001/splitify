@@ -128,7 +128,9 @@ export default function SignupScreen() {
     );
 
     if (user) {
-      router.replace("/(auth)/verify-email");
+      setTimeout(() => {
+        router.replace("/(auth)/verify-email");
+      }, 100);
     }
   };
 

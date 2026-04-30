@@ -1,0 +1,47 @@
+Splitify - Smart Group Expense Sharing App
+
+Project Description: Splitify is a mobile app that helps groups split expenses, track balances in real time, and settle payments fairly with less confusion.
+
+About Project: Splitify was built to solve common problems in shared spending, like unclear balances and manual calculations. It provides a simple and transparent way for users to manage group expenses, reduce disputes, and settle payments efficiently.
+
+Excited to share a project I recently built: Splitify, a cross-platform mobile app that makes shared expense tracking simple, transparent, and fair.
+
+Key Features:
+- Group Management: Create groups and manage members
+- Flexible Expense Splitting: Equal, Percentage, and Custom split options
+- Real-Time Balance Tracking: Clear view of who owes whom
+- Smart Settlements: Suggestions to minimize payment cycles
+- Insights and Trends: Spending analysis and category breakdowns
+
+Tech Stack:
+- React Native + Expo
+- TypeScript
+- Expo Router
+- Firebase Authentication
+- Cloud Firestore
+- Context API
+
+What I focused on in this project:
+- Clean and scalable folder architecture
+- User-friendly mobile-first UI
+- Reliable backend services and data flow
+- Transparent calculations to reduce payment disputes
+
+This project strengthened my skills in mobile app architecture, state management, and building real-world financial workflows.
+
+What I Learned:
+- Structuring a React Native + Expo project with clear modules improves scalability
+- Using TypeScript interfaces across screens and services reduces runtime bugs
+- Managing app-wide state with Context API and reducers keeps data flow predictable
+- Integrating Firebase Auth and Firestore requires strong validation and access control
+- Expo Router nested layouts make complex mobile navigation easier to maintain
+
+My Goal:
+- Build useful, user-focused mobile apps and keep growing as a full-stack developer.
+
+I would love your feedback. Suggestions and collaboration ideas are welcome.
+
+GitHub: [Add your repo link]
+Demo: [Add your demo video/link]
+
+#ReactNative #Expo #TypeScript #Firebase #MobileDevelopment #AppDevelopment #Fintech #SoftwareEngineering #OpenToWork #LinkedInProjects

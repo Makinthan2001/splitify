@@ -22,6 +22,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   useEffect(() => {
+    if (!auth || !auth.onAuthStateChanged) {
+      console.warn("Firebase Auth is not available. Skipping auth listener.");
+      dispatch({ type: "SET_AUTH_INITIALIZED", payload: true });
+      return;
+    }
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
         const user: User = {

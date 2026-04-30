@@ -110,7 +110,10 @@ export default function LoginScreen() {
         );
         return;
       }
-      router.replace("/(tabs)/home");
+      // Small delay to ensure the Root Layout is fully mounted
+      setTimeout(() => {
+        router.replace("/(tabs)/home");
+      }, 100);
     }
   };
 
